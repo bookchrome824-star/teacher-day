@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>10А — Бидний дурсамж ♡</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="album.css">
+</head>
+
+
+<body>
+
+  <!-- NAV -->
+
+  <nav class="album-nav">
+
+    <a href="/" class="album-logo">
+      10А ♡
+    </a>
+
+    <a href="/" class="back-site">
+      ← Багшийн сайт
+    </a>
+
+  </nav>
+
+
+  <!-- HERO -->
+
+  <header class="album-hero">
+
+    <div class="hero-flower flower-1">
+      ❀
+    </div>
+
+    <div class="hero-flower flower-2">
+      ✿
+    </div>
+
+
+    <div class="album-hero-content">
+
+      <p class="album-small">
+        CLASS MEMORIES • 2026
+      </p>
+
+      <h1>
+        Бидний
+        <span>дурсамж</span>
+      </h1>
+
+      <div class="gold-line"></div>
+
+      <p class="hero-description">
+        Хамтдаа инээж, суралцаж, аялж,
+        амжилтаа хуваалцсан сурагч насны
+        нандин мөчүүд ♡
+      </p>
+
+      <div class="class-name">
+        10А анги
+      </div>
+
+      <button
+        type="button"
+        id="openAlbumBtn"
+        class="main-btn"
+      >
+        📖 Цомгоо нээх
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- CATEGORY SECTION -->
+
+  <main
+    class="category-section"
+    id="categorySection"
+  >
+
+    <div class="section-heading">
+
+      <p>
+        OUR MEMORIES
+      </p>
+
+      <h2>
+        Дурсамжаа
+        <span>сонгоорой</span>
+      </h2>
+
+      <div class="heading-line"></div>
+
+      <p class="heading-description">
+        Аль хэсгийг үзэхээ сонгоно уу ♡
+      </p>
+
+    </div>
+
+
+    <div class="category-grid">
+
+
+      <!-- EVENTS -->
+
+      <button
+        type="button"
+        class="category-card"
+        data-category="events"
+      >
+
+        <span class="category-number">
+          01
+        </span>
+
+        <div class="category-icon">
+          🎉
+        </div>
+
+        <h3>
+          Баярын арга хэмжээ
+        </h3>
+
+        <p>
+          Баяр ёслол болон сургуулийн
+          арга хэмжээний дурсамжууд.
+        </p>
+
+        <span class="category-open">
+          Цомог үзэх →
+        </span>
+
+      </button>
+
+
+      <!-- AWARDS -->
+
+      <button
+        type="button"
+        class="category-card"
+        data-category="awards"
+      >
+
+        <span class="category-number">
+          02
+        </span>
+
+        <div class="category-icon">
+          🏆
+        </div>
+
+        <h3>
+          Медаль, шагнал,
+          тэмцээн уралдаан
+        </h3>
+
+        <p>
+          Бидний амжилт, шагнал,
+          тэмцээн уралдааны мөчүүд.
+        </p>
+
+        <span class="category-open">
+          Цомог үзэх →
+        </span>
+
+      </button>
+
+
+      <!-- TRAVEL -->
+
+      <button
+        type="button"
+        class="category-card"
+        data-category="travel"
+      >
+
+        <span class="category-number">
+          03
+        </span>
+
+        <div class="category-icon">
+          🚌
+        </div>
+
+        <h3>
+          Аялал
+        </h3>
+
+        <p>
+          Хамтдаа аялж, хөгжилдөж,
+          шинэ дурсамж бүтээсэн өдрүүд.
+        </p>
+
+        <span class="category-open">
+          Цомог үзэх →
+        </span>
+
+      </button>
+
+
+      <!-- FREE -->
+
+      <button
+        type="button"
+        class="category-card"
+        data-category="free"
+      >
+
+        <span class="category-number">
+          04
+        </span>
+
+        <div class="category-icon">
+          📸
+        </div>
+
+        <h3>
+          Чөлөөт зургууд
+        </h3>
+
+        <p>
+          Энгийн өдрүүдийн хамгийн
+          хөгжилтэй, нандин мөчүүд.
+        </p>
+
+        <span class="category-open">
+          Цомог үзэх →
+        </span>
+
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <!-- PHOTO GALLERY -->
+
+  <section
+    class="gallery-section"
+    id="gallerySection"
+  >
+
+    <div class="gallery-top">
+
+      <button
+        type="button"
+        id="backBtn"
+        class="back-btn"
+      >
+        ← Ангиллууд
+      </button>
+
+
+      <div>
+
+        <p>
+          10А • OUR MEMORIES
+        </p>
+
+        <h2 id="galleryTitle">
+          Дурсамж
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="photo-grid"
+      id="photoGrid"
+    >
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div>
+      ♡
+    </div>
+
+    <p>
+      Бидний сурагч насны нандин дурсамж
+    </p>
+
+    <span>
+      10А • 2026
+    </span>
+
+  </footer>
+
+
+  <!-- IMAGE VIEWER -->
+
+  <div
+    class="image-modal"
+    id="imageModal"
+  >
+
+    <button
+      type="button"
+      id="closeModal"
+    >
+      ×
+    </button>
+
+    <img
+      id="modalImage"
+      src=""
+      alt="Дурсамж"
+    >
+
+    <p id="modalCaption"></p>
+
+  </div>
+
+
+  <script src="album.js"></script>
+
+</body>
+</html>
