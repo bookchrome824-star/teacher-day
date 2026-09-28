@@ -2,167 +2,268 @@
 <html lang="mn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Цомгийн удирдлага</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="admin.css">
+  <link
+    rel="stylesheet"
+    href="admin.css"
+  >
 </head>
 
 <body>
 
-  <header class="admin-header">
-    <div>
-      <p>TEACHER DAY • ADMIN</p>
-      <h1>Дурсамжийн цомог ♡</h1>
+
+<!-- ================= LOGIN ================= -->
+
+<div
+  id="loginScreen"
+  class="login-screen"
+>
+
+  <div class="login-card">
+
+    <div class="login-flower">
+      🌸
     </div>
 
-    <a href="/" class="home-btn">
+    <p class="small-title">
+      TEACHER DAY
+    </p>
+
+    <h1>
+      Цомгийн удирдлага
+    </h1>
+
+    <p class="login-description">
+      Зөвхөн админ нэвтрэх хэсэг ♡
+    </p>
+
+
+    <form id="loginForm">
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Admin нууц үг"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit">
+        Нэвтрэх →
+      </button>
+
+    </form>
+
+
+    <div
+      id="loginError"
+      class="login-error"
+    ></div>
+
+
+    <a
+      href="/"
+      class="back-site"
+    >
       ← Үндсэн сайт
     </a>
+
+  </div>
+
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div
+  id="dashboard"
+  class="dashboard hidden"
+>
+
+  <header class="admin-header">
+
+    <div>
+
+      <p>
+        TEACHER DAY • ADMIN
+      </p>
+
+      <h1>
+        Дурсамжийн цомог ♡
+      </h1>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <a
+        href="/"
+        class="outline-btn"
+      >
+        ← Сайт
+      </a>
+
+      <button
+        id="logoutBtn"
+        class="outline-btn"
+      >
+        Гарах
+      </button>
+
+    </div>
+
   </header>
 
 
   <main class="admin-container">
 
+
+    <!-- UPLOAD -->
+
     <section class="admin-card">
 
-      <div class="card-heading">
+      <div class="section-title">
+
         <span>01</span>
+
         <div>
-          <p>ШИНЭ ДУРСАМЖ</p>
-          <h2>Зураг нэмэх</h2>
+
+          <p>
+            ШИНЭ ДУРСАМЖ
+          </p>
+
+          <h2>
+            Зураг нэмэх
+          </h2>
+
         </div>
+
       </div>
 
 
       <form id="uploadForm">
 
-        <div class="form-group">
-          <label for="password">
-            🔐 Admin нууц үг
-          </label>
 
-          <input
-            type="password"
-            id="password"
-            placeholder="Нууц үгээ оруулна уу"
-            required
-          >
-        </div>
+        <label>
+          Ангилал
+        </label>
 
+        <select
+          id="category"
+          required
+        >
 
-        <div class="form-group">
-          <label for="category">
-            Цомгийн ангилал
-          </label>
+          <option value="events">
+            🎉 Баярын арга хэмжээ
+          </option>
 
-          <select id="category" required>
-            <option value="events">
-              🎉 Баярын арга хэмжээ
-            </option>
+          <option value="awards">
+            🏆 Медаль, шагнал, тэмцээн
+          </option>
 
-            <option value="awards">
-              🏆 Медаль, шагнал, тэмцээн
-            </option>
+          <option value="travel">
+            🚌 Аялал
+          </option>
 
-            <option value="travel">
-              🚌 Аялал
-            </option>
+          <option value="free">
+            📸 Чөлөөт зураг
+          </option>
 
-            <option value="free">
-              📸 Чөлөөт зургууд
-            </option>
-          </select>
-        </div>
+        </select>
 
 
-        <div class="form-group">
-          <label for="title">
-            Зургийн тайлбар
-          </label>
+        <label>
+          Тайлбар
+        </label>
 
-          <input
-            type="text"
-            id="title"
-            maxlength="100"
-            placeholder="Жишээ: Багш нарын баяр 2026"
-          >
-        </div>
+        <input
+          id="title"
+          type="text"
+          maxlength="100"
+          placeholder="Жишээ: Багш нарын баяр"
+        >
 
 
-        <div class="form-group">
+        <label
+          for="photos"
+          class="upload-area"
+        >
 
-          <label>
-            Зураг сонгох
-          </label>
-
-          <label
-            for="photos"
-            class="upload-box"
-            id="uploadBox"
-          >
-
-            <div class="upload-icon">
-              📷
-            </div>
-
-            <strong>
-              Зургаа сонгох
-            </strong>
-
-            <span>
-              Утас болон компьютерээс олон зураг зэрэг сонгож болно
-            </span>
-
-            <input
-              type="file"
-              id="photos"
-              accept="image/*"
-              multiple
-              required
-            >
-
-          </label>
-
-          <div
-            class="selected-files"
-            id="selectedFiles"
-          >
-            Зураг сонгоогүй байна.
+          <div>
+            📷
           </div>
 
+          <strong>
+            Зураг сонгох
+          </strong>
+
+          <p>
+            Олон зураг зэрэг сонгож болно
+          </p>
+
+          <input
+            id="photos"
+            type="file"
+            accept="image/*"
+            multiple
+            required
+          >
+
+        </label>
+
+
+        <div
+          id="selectedFiles"
+          class="selected-files"
+        >
+          Зураг сонгоогүй байна.
         </div>
 
 
-        <label class="checkbox-row">
+        <label class="check-row">
 
           <input
-            type="checkbox"
             id="wide"
+            type="checkbox"
           >
 
           <span>
-            🖼 Эдгээр зургийг том бүтэн өргөнөөр харуулах
+            🖼 Том бүтэн зураг
           </span>
 
         </label>
 
 
         <button
-          type="submit"
-          class="upload-btn"
           id="uploadBtn"
+          class="primary-btn"
+          type="submit"
         >
-          ☁️ Зураг upload хийх
+          ☁️ Upload хийх
         </button>
 
 
@@ -176,21 +277,30 @@
     </section>
 
 
+    <!-- MANAGE -->
+
     <section class="admin-card">
 
-      <div class="card-heading">
+      <div class="section-title">
 
         <span>02</span>
 
         <div>
-          <p>ЦОМГИЙН УДИРДЛАГА</p>
-          <h2>Оруулсан зургууд</h2>
+
+          <p>
+            ЦОМГИЙН УДИРДЛАГА
+          </p>
+
+          <h2>
+            Оруулсан зургууд
+          </h2>
+
         </div>
 
       </div>
 
 
-      <div class="filter-row">
+      <div class="toolbar">
 
         <select id="filterCategory">
 
@@ -211,58 +321,131 @@
           </option>
 
           <option value="free">
-            📸 Чөлөөт зургууд
+            📸 Чөлөөт зураг
           </option>
 
         </select>
 
 
         <button
-          type="button"
           id="refreshBtn"
-          class="refresh-btn"
+          class="outline-btn"
         >
-          ↻ Шинэчлэх
+          ↻
         </button>
 
       </div>
+
+
+      <p class="order-help">
+        ↑ ↓ товчоор зургуудын дарааллыг солино.
+      </p>
 
 
       <div
         id="photoList"
         class="photo-list"
       >
-
-        <div class="loading">
-          Зургуудыг ачаалж байна...
-        </div>
-
+        Зургуудыг ачаалж байна...
       </div>
 
     </section>
 
   </main>
 
+</div>
 
-  <div
-    class="image-modal"
-    id="imageModal"
-  >
 
-    <button id="closeModal">
+<!-- ================= EDIT MODAL ================= -->
+
+<div
+  id="editModal"
+  class="modal"
+>
+
+  <div class="modal-card">
+
+    <button
+      id="closeEdit"
+      class="close-btn"
+    >
       ×
     </button>
 
+
+    <h2>
+      Зураг засах
+    </h2>
+
+
     <img
-      id="modalImage"
-      src=""
+      id="editPreview"
       alt="Зураг"
     >
 
+
+    <label>
+      Тайлбар
+    </label>
+
+    <input
+      id="editTitle"
+      type="text"
+    >
+
+
+    <label>
+      Ангилал
+    </label>
+
+    <select id="editCategory">
+
+      <option value="events">
+        🎉 Баярын арга хэмжээ
+      </option>
+
+      <option value="awards">
+        🏆 Медаль, шагнал
+      </option>
+
+      <option value="travel">
+        🚌 Аялал
+      </option>
+
+      <option value="free">
+        📸 Чөлөөт зураг
+      </option>
+
+    </select>
+
+
+    <label class="check-row">
+
+      <input
+        id="editWide"
+        type="checkbox"
+      >
+
+      <span>
+        🖼 Том бүтэн зураг
+      </span>
+
+    </label>
+
+
+    <button
+      id="saveEditBtn"
+      class="primary-btn"
+    >
+      Хадгалах
+    </button>
+
   </div>
 
+</div>
 
-  <script src="admin.js"></script>
+
+<script src="admin.js"></script>
 
 </body>
 </html>

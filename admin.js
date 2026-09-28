@@ -1,19 +1,43 @@
+let adminPassword = "";
+let currentPhotos = [];
+let editingPhotoId = null;
+
+
+// ==============================
+// ELEMENTS
+// ==============================
+
+const loginScreen =
+  document.getElementById("loginScreen");
+
+const dashboard =
+  document.getElementById("dashboard");
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const loginPassword =
+  document.getElementById("loginPassword");
+
+const loginError =
+  document.getElementById("loginError");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
 const uploadForm =
   document.getElementById("uploadForm");
 
-const passwordInput =
-  document.getElementById("password");
-
-const categoryInput =
+const category =
   document.getElementById("category");
 
-const titleInput =
+const title =
   document.getElementById("title");
 
-const photosInput =
+const photos =
   document.getElementById("photos");
 
-const wideInput =
+const wide =
   document.getElementById("wide");
 
 const selectedFiles =
@@ -25,23 +49,35 @@ const uploadBtn =
 const uploadStatus =
   document.getElementById("uploadStatus");
 
-const photoList =
-  document.getElementById("photoList");
-
 const filterCategory =
   document.getElementById("filterCategory");
 
 const refreshBtn =
   document.getElementById("refreshBtn");
 
-const imageModal =
-  document.getElementById("imageModal");
+const photoList =
+  document.getElementById("photoList");
 
-const modalImage =
-  document.getElementById("modalImage");
+const editModal =
+  document.getElementById("editModal");
 
-const closeModal =
-  document.getElementById("closeModal");
+const closeEdit =
+  document.getElementById("closeEdit");
+
+const editPreview =
+  document.getElementById("editPreview");
+
+const editTitle =
+  document.getElementById("editTitle");
+
+const editCategory =
+  document.getElementById("editCategory");
+
+const editWide =
+  document.getElementById("editWide");
+
+const saveEditBtn =
+  document.getElementById("saveEditBtn");
 
 
 const categoryNames = {
@@ -52,55 +88,207 @@ const categoryNames = {
 };
 
 
-// =====================================
-// PASSWORD
-// =====================================
+// ==============================
+// LOGIN
+// ==============================
 
-const savedPassword =
-  sessionStorage.getItem(
-    "teacherAdminPassword"
-  );
+loginForm.addEventListener(
+  "submit",
+  async (event) => {
 
-if (savedPassword) {
-  passwordInput.value =
-    savedPassword;
-}
+    event.preventDefault();
 
+    const password =
+      loginPassword.value.trim();
 
-// =====================================
-// SELECT FILES
-// =====================================
-
-photosInput.addEventListener(
-  "change",
-  () => {
-
-    const files =
-      Array.from(
-        photosInput.files
-      );
-
-    if (files.length === 0) {
-
-      selectedFiles.textContent =
-        "Зураг сонгоогүй байна.";
-
+    if (!password) {
       return;
     }
 
-    selectedFiles.textContent =
-      `${files.length} зураг сонгогдлоо: ` +
-      files
-        .map(file => file.name)
-        .join(", ");
+    loginError.textContent =
+      "Шалгаж байна...";
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/admin/login",
+          {
+            method: "POST",
+
+            headers: {
+              "x-admin-password":
+                password
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+        throw new Error(
+          "Нууц үг буруу байна."
+        );
+      }
+
+
+      adminPassword =
+        password;
+
+
+      sessionStorage.setItem(
+        "teacherAdminPassword",
+        password
+      );
+
+
+      showDashboard();
+
+    } catch (error) {
+
+      loginError.textContent =
+        "❌ " + error.message;
+
+    }
 
   }
 );
 
 
-// =====================================
+// ==============================
+// AUTO LOGIN
+// ==============================
+
+async function tryAutoLogin() {
+
+  const saved =
+    sessionStorage.getItem(
+      "teacherAdminPassword"
+    );
+
+  if (!saved) {
+    return;
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/admin/login",
+        {
+          method: "POST",
+
+          headers: {
+            "x-admin-password":
+              saved
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+
+    adminPassword =
+      saved;
+
+
+    showDashboard();
+
+  } catch {
+
+    sessionStorage.removeItem(
+      "teacherAdminPassword"
+    );
+
+  }
+
+}
+
+
+// ==============================
+// DASHBOARD
+// ==============================
+
+function showDashboard() {
+
+  loginScreen.classList.add(
+    "hidden"
+  );
+
+  dashboard.classList.remove(
+    "hidden"
+  );
+
+  loadPhotos();
+
+}
+
+
+// ==============================
+// LOGOUT
+// ==============================
+
+logoutBtn.addEventListener(
+  "click",
+  () => {
+
+    adminPassword = "";
+
+    sessionStorage.removeItem(
+      "teacherAdminPassword"
+    );
+
+    dashboard.classList.add(
+      "hidden"
+    );
+
+    loginScreen.classList.remove(
+      "hidden"
+    );
+
+    loginPassword.value = "";
+
+    loginError.textContent = "";
+
+  }
+);
+
+
+// ==============================
+// FILE SELECT
+// ==============================
+
+photos.addEventListener(
+  "change",
+  () => {
+
+    const files =
+      Array.from(photos.files);
+
+
+    if (!files.length) {
+
+      selectedFiles.textContent =
+        "Зураг сонгоогүй байна.";
+
+      return;
+
+    }
+
+
+    selectedFiles.textContent =
+      `${files.length} зураг сонгогдлоо`;
+
+  }
+);
+
+
+// ==============================
 // STATUS
-// =====================================
+// ==============================
 
 function setStatus(
   message,
@@ -116,9 +304,9 @@ function setStatus(
 }
 
 
-// =====================================
+// ==============================
 // UPLOAD
-// =====================================
+// ==============================
 
 uploadForm.addEventListener(
   "submit",
@@ -126,70 +314,50 @@ uploadForm.addEventListener(
 
     event.preventDefault();
 
-    const password =
-      passwordInput.value.trim();
 
     const files =
-      Array.from(
-        photosInput.files
-      );
+      Array.from(photos.files);
 
 
-    if (!password) {
+    if (!files.length) {
 
       setStatus(
-        "Admin нууц үгээ оруулна уу.",
+        "Зураг сонгоно уу.",
         "error"
       );
 
       return;
+
     }
 
 
-    if (files.length === 0) {
-
-      setStatus(
-        "Ядаж нэг зураг сонгоно уу.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    sessionStorage.setItem(
-      "teacherAdminPassword",
-      password
-    );
-
-
-    const formData =
+    const data =
       new FormData();
 
 
-    formData.append(
+    data.append(
       "category",
-      categoryInput.value
+      category.value
     );
 
 
-    formData.append(
+    data.append(
       "title",
-      titleInput.value.trim()
+      title.value.trim()
     );
 
 
-    formData.append(
+    data.append(
       "wide",
-      wideInput.checked
+      wide.checked
         ? "true"
         : "false"
     );
 
 
-    files.forEach(file => {
+    files.forEach((file) => {
 
-      formData.append(
+      data.append(
         "photos",
         file
       );
@@ -197,14 +365,14 @@ uploadForm.addEventListener(
     });
 
 
-    uploadBtn.disabled =
-      true;
+    uploadBtn.disabled = true;
 
     uploadBtn.textContent =
       "⏳ Upload хийж байна...";
 
+
     setStatus(
-      "Зургуудыг Cloudinary руу upload хийж байна...",
+      "Cloudinary руу upload хийж байна...",
       "loading"
     );
 
@@ -219,41 +387,34 @@ uploadForm.addEventListener(
 
             headers: {
               "x-admin-password":
-                password
+                adminPassword
             },
 
-            body:
-              formData
+            body: data
           }
         );
 
 
-      const data =
+      const result =
         await response.json();
 
 
       if (!response.ok) {
 
         throw new Error(
-          data.message ||
-          "Upload амжилтгүй."
+          result.message
         );
 
       }
 
 
       setStatus(
-        `✅ ${data.photos.length} зураг амжилттай нэмэгдлээ.`,
+        `✅ ${result.photos.length} зураг нэмэгдлээ.`,
         "success"
       );
 
 
-      photosInput.value = "";
-
-      titleInput.value = "";
-
-      wideInput.checked =
-        false;
+      uploadForm.reset();
 
       selectedFiles.textContent =
         "Зураг сонгоогүй байна.";
@@ -270,11 +431,10 @@ uploadForm.addEventListener(
 
     } finally {
 
-      uploadBtn.disabled =
-        false;
+      uploadBtn.disabled = false;
 
       uploadBtn.textContent =
-        "☁️ Зураг upload хийх";
+        "☁️ Upload хийх";
 
     }
 
@@ -282,16 +442,17 @@ uploadForm.addEventListener(
 );
 
 
-// =====================================
-// LOAD PHOTOS
-// =====================================
+// ==============================
+// LOAD
+// ==============================
 
 async function loadPhotos() {
 
-  photoList.innerHTML =
-    `<div class="loading">
+  photoList.innerHTML = `
+    <div class="empty">
       Зургуудыг ачаалж байна...
-    </div>`;
+    </div>
+  `;
 
 
   try {
@@ -300,9 +461,7 @@ async function loadPhotos() {
       "/api/photos";
 
 
-    if (
-      filterCategory.value
-    ) {
+    if (filterCategory.value) {
 
       url +=
         "?category=" +
@@ -318,207 +477,343 @@ async function loadPhotos() {
 
 
     if (!response.ok) {
-
       throw new Error(
         "Зургуудыг авч чадсангүй."
       );
-
     }
 
 
-    const photos =
+    currentPhotos =
       await response.json();
 
 
-    renderPhotos(photos);
+    renderPhotos();
 
   } catch (error) {
 
-    photoList.innerHTML =
-      `<div class="empty">
-        ❌ ${escapeHtml(
-          error.message
-        )}
-      </div>`;
+    photoList.innerHTML = `
+      <div class="empty">
+        ❌ ${escapeHtml(error.message)}
+      </div>
+    `;
 
   }
 
 }
 
 
-// =====================================
-// RENDER PHOTOS
-// =====================================
+// ==============================
+// RENDER
+// ==============================
 
-function renderPhotos(photos) {
+function renderPhotos() {
 
   photoList.innerHTML = "";
 
 
-  if (photos.length === 0) {
+  if (!currentPhotos.length) {
 
-    photoList.innerHTML =
-      `<div class="empty">
-        Одоогоор зураг байхгүй байна ♡
-      </div>`;
+    photoList.innerHTML = `
+      <div class="empty">
+        Одоогоор зураг байхгүй ♡
+      </div>
+    `;
 
     return;
+
   }
 
 
-  photos.forEach(photo => {
+  currentPhotos.forEach(
+    (photo, index) => {
 
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "photo-item";
-
-
-    const image =
-      document.createElement("img");
-
-    image.className =
-      "photo-image";
-
-    image.src =
-      photo.imageUrl;
-
-    image.alt =
-      photo.title ||
-      "Дурсамж";
-
-    image.loading =
-      "lazy";
-
-
-    image.addEventListener(
-      "click",
-      () => {
-
-        modalImage.src =
-          photo.imageUrl;
-
-        imageModal.classList.add(
-          "show"
-        );
-
-      }
-    );
-
-
-    const info =
-      document.createElement("div");
-
-    info.className =
-      "photo-info";
-
-
-    const title =
-      document.createElement("h3");
-
-    title.textContent =
-      photo.title ||
-      "Дурсамж ♡";
-
-
-    const category =
-      document.createElement("p");
-
-    category.textContent =
-      categoryNames[
-        photo.category
-      ] || photo.category;
-
-
-    info.appendChild(title);
-
-    info.appendChild(category);
-
-
-    if (photo.wide) {
-
-      const badge =
+      const card =
         document.createElement(
-          "span"
+          "div"
         );
 
-      badge.className =
-        "wide-badge";
 
-      badge.textContent =
-        "🖼 Том зураг";
+      card.className =
+        "photo-card";
 
-      info.appendChild(badge);
+
+      card.innerHTML = `
+
+        <img
+          src="${escapeAttribute(photo.imageUrl)}"
+          alt="Дурсамж"
+          loading="lazy"
+        >
+
+        <div class="photo-content">
+
+          <h3>
+            ${escapeHtml(
+              photo.title ||
+              "Дурсамж ♡"
+            )}
+          </h3>
+
+          <p>
+            ${
+              categoryNames[
+                photo.category
+              ] || ""
+            }
+          </p>
+
+          ${
+            photo.wide
+              ? `<span class="badge">
+                   🖼 Том зураг
+                 </span>`
+              : ""
+          }
+
+          <div class="card-actions">
+
+            <button
+              class="move-up"
+              title="Дээш"
+            >
+              ↑
+            </button>
+
+            <button
+              class="move-down"
+              title="Доош"
+            >
+              ↓
+            </button>
+
+            <button
+              class="edit"
+            >
+              ✏️
+            </button>
+
+            <button
+              class="delete"
+            >
+              🗑
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+
+      card
+        .querySelector(".move-up")
+        .addEventListener(
+          "click",
+          () => movePhoto(
+            index,
+            -1
+          )
+        );
+
+
+      card
+        .querySelector(".move-down")
+        .addEventListener(
+          "click",
+          () => movePhoto(
+            index,
+            1
+          )
+        );
+
+
+      card
+        .querySelector(".edit")
+        .addEventListener(
+          "click",
+          () => openEdit(photo)
+        );
+
+
+      card
+        .querySelector(".delete")
+        .addEventListener(
+          "click",
+          () => deletePhoto(
+            photo._id
+          )
+        );
+
+
+      photoList.appendChild(card);
 
     }
-
-
-    const deleteBtn =
-      document.createElement(
-        "button"
-      );
-
-    deleteBtn.className =
-      "delete-btn";
-
-    deleteBtn.textContent =
-      "🗑 Устгах";
-
-
-    deleteBtn.addEventListener(
-      "click",
-      () => {
-        deletePhoto(
-          photo._id
-        );
-      }
-    );
-
-
-    info.appendChild(deleteBtn);
-
-    card.appendChild(image);
-
-    card.appendChild(info);
-
-    photoList.appendChild(card);
-
-  });
+  );
 
 }
 
 
-// =====================================
+// ==============================
+// EDIT
+// ==============================
+
+function openEdit(photo) {
+
+  editingPhotoId =
+    photo._id;
+
+
+  editPreview.src =
+    photo.imageUrl;
+
+
+  editTitle.value =
+    photo.title || "";
+
+
+  editCategory.value =
+    photo.category;
+
+
+  editWide.checked =
+    Boolean(photo.wide);
+
+
+  editModal.classList.add(
+    "show"
+  );
+
+}
+
+
+closeEdit.addEventListener(
+  "click",
+  closeEditModal
+);
+
+
+editModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target === editModal
+    ) {
+
+      closeEditModal();
+
+    }
+
+  }
+);
+
+
+function closeEditModal() {
+
+  editModal.classList.remove(
+    "show"
+  );
+
+  editingPhotoId = null;
+
+}
+
+
+// ==============================
+// SAVE EDIT
+// ==============================
+
+saveEditBtn.addEventListener(
+  "click",
+  async () => {
+
+    if (!editingPhotoId) {
+      return;
+    }
+
+
+    saveEditBtn.disabled =
+      true;
+
+
+    try {
+
+      const response =
+        await fetch(
+          `/api/photos/${editingPhotoId}`,
+          {
+            method: "PUT",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              "x-admin-password":
+                adminPassword
+            },
+
+            body: JSON.stringify({
+              title:
+                editTitle.value.trim(),
+
+              category:
+                editCategory.value,
+
+              wide:
+                editWide.checked
+            })
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          result.message
+        );
+
+      }
+
+
+      closeEditModal();
+
+      await loadPhotos();
+
+    } catch (error) {
+
+      alert(
+        "❌ " + error.message
+      );
+
+    } finally {
+
+      saveEditBtn.disabled =
+        false;
+
+    }
+
+  }
+);
+
+
+// ==============================
 // DELETE
-// =====================================
+// ==============================
 
 async function deletePhoto(id) {
 
-  let password =
-    passwordInput.value.trim();
-
-
-  if (!password) {
-
-    password =
-      prompt(
-        "Admin нууц үгээ оруулна уу:"
-      );
-
-  }
-
-
-  if (!password) return;
-
-
   const confirmed =
     confirm(
-      "Энэ зургийг үнэхээр устгах уу?"
+      "Энэ зургийг устгах уу?"
     );
 
 
-  if (!confirmed) return;
+  if (!confirmed) {
+    return;
+  }
 
 
   try {
@@ -531,21 +826,20 @@ async function deletePhoto(id) {
 
           headers: {
             "x-admin-password":
-              password
+              adminPassword
           }
         }
       );
 
 
-    const data =
+    const result =
       await response.json();
 
 
     if (!response.ok) {
 
       throw new Error(
-        data.message ||
-        "Устгаж чадсангүй."
+        result.message
       );
 
     }
@@ -556,8 +850,7 @@ async function deletePhoto(id) {
   } catch (error) {
 
     alert(
-      "❌ " +
-      error.message
+      "❌ " + error.message
     );
 
   }
@@ -565,9 +858,93 @@ async function deletePhoto(id) {
 }
 
 
-// =====================================
+// ==============================
+// REORDER
+// ==============================
+
+async function movePhoto(
+  index,
+  direction
+) {
+
+  const newIndex =
+    index + direction;
+
+
+  if (
+    newIndex < 0 ||
+    newIndex >=
+      currentPhotos.length
+  ) {
+    return;
+  }
+
+
+  [
+    currentPhotos[index],
+    currentPhotos[newIndex]
+  ] = [
+    currentPhotos[newIndex],
+    currentPhotos[index]
+  ];
+
+
+  renderPhotos();
+
+
+  try {
+
+    const ids =
+      currentPhotos.map(
+        photo => photo._id
+      );
+
+
+    const response =
+      await fetch(
+        "/api/photos/reorder/all",
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            "x-admin-password":
+              adminPassword
+          },
+
+          body: JSON.stringify({
+            ids
+          })
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Дарааллыг хадгалж чадсангүй."
+      );
+
+    }
+
+  } catch (error) {
+
+    alert(
+      "❌ " + error.message
+    );
+
+    await loadPhotos();
+
+  }
+
+}
+
+
+// ==============================
 // FILTER
-// =====================================
+// ==============================
 
 filterCategory.addEventListener(
   "change",
@@ -581,44 +958,9 @@ refreshBtn.addEventListener(
 );
 
 
-// =====================================
-// MODAL
-// =====================================
-
-closeModal.addEventListener(
-  "click",
-  () => {
-
-    imageModal.classList.remove(
-      "show"
-    );
-
-  }
-);
-
-
-imageModal.addEventListener(
-  "click",
-  event => {
-
-    if (
-      event.target ===
-      imageModal
-    ) {
-
-      imageModal.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-);
-
-
-// =====================================
-// SECURITY HELPER
-// =====================================
+// ==============================
+// ESCAPE
+// ==============================
 
 function escapeHtml(value) {
 
@@ -626,15 +968,26 @@ function escapeHtml(value) {
     document.createElement("div");
 
   div.textContent =
-    String(value);
+    String(value ?? "");
 
   return div.innerHTML;
 
 }
 
 
-// =====================================
-// START
-// =====================================
+function escapeAttribute(value) {
 
-loadPhotos();
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+}
+
+
+// ==============================
+// START
+// ==============================
+
+tryAutoLogin();
