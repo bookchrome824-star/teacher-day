@@ -81,10 +81,19 @@ const saveEditBtn =
 
 
 const categoryNames = {
-  events: "🎉 Баярын арга хэмжээ",
-  awards: "🏆 Медаль, шагнал",
-  travel: "🚌 Аялал",
-  free: "📸 Чөлөөт зураг"
+
+  events:
+    "🎉 Баярын арга хэмжээ",
+
+  awards:
+    "🏆 Медаль, шагнал",
+
+  travel:
+    "🚌 Аялал",
+
+  free:
+    "📸 Чөлөөт зураг"
+
 };
 
 
@@ -94,19 +103,26 @@ const categoryNames = {
 
 loginForm.addEventListener(
   "submit",
+
   async (event) => {
 
     event.preventDefault();
 
+
     const password =
-      loginPassword.value.trim();
+      loginPassword
+        .value
+        .trim();
+
 
     if (!password) {
       return;
     }
 
+
     loginError.textContent =
       "Шалгаж байна...";
+
 
     try {
 
@@ -125,9 +141,11 @@ loginForm.addEventListener(
 
 
       if (!response.ok) {
+
         throw new Error(
           "Нууц үг буруу байна."
         );
+
       }
 
 
@@ -146,7 +164,8 @@ loginForm.addEventListener(
     } catch (error) {
 
       loginError.textContent =
-        "❌ " + error.message;
+        "❌ " +
+        error.message;
 
     }
 
@@ -164,6 +183,7 @@ async function tryAutoLogin() {
     sessionStorage.getItem(
       "teacherAdminPassword"
     );
+
 
   if (!saved) {
     return;
@@ -218,9 +238,11 @@ function showDashboard() {
     "hidden"
   );
 
+
   dashboard.classList.remove(
     "hidden"
   );
+
 
   loadPhotos();
 
@@ -237,17 +259,21 @@ logoutBtn.addEventListener(
 
     adminPassword = "";
 
+
     sessionStorage.removeItem(
       "teacherAdminPassword"
     );
+
 
     dashboard.classList.add(
       "hidden"
     );
 
+
     loginScreen.classList.remove(
       "hidden"
     );
+
 
     loginPassword.value = "";
 
@@ -266,7 +292,9 @@ photos.addEventListener(
   () => {
 
     const files =
-      Array.from(photos.files);
+      Array.from(
+        photos.files
+      );
 
 
     if (!files.length) {
@@ -298,6 +326,7 @@ function setStatus(
   uploadStatus.textContent =
     message;
 
+
   uploadStatus.className =
     `status show ${type}`;
 
@@ -310,13 +339,16 @@ function setStatus(
 
 uploadForm.addEventListener(
   "submit",
+
   async (event) => {
 
     event.preventDefault();
 
 
     const files =
-      Array.from(photos.files);
+      Array.from(
+        photos.files
+      );
 
 
     if (!files.length) {
@@ -355,17 +387,21 @@ uploadForm.addEventListener(
     );
 
 
-    files.forEach((file) => {
+    files.forEach(
+      (file) => {
 
-      data.append(
-        "photos",
-        file
-      );
+        data.append(
+          "photos",
+          file
+        );
 
-    });
+      }
+    );
 
 
-    uploadBtn.disabled = true;
+    uploadBtn.disabled =
+      true;
+
 
     uploadBtn.textContent =
       "⏳ Upload хийж байна...";
@@ -390,7 +426,8 @@ uploadForm.addEventListener(
                 adminPassword
             },
 
-            body: data
+            body:
+              data
           }
         );
 
@@ -416,6 +453,7 @@ uploadForm.addEventListener(
 
       uploadForm.reset();
 
+
       selectedFiles.textContent =
         "Зураг сонгоогүй байна.";
 
@@ -425,13 +463,16 @@ uploadForm.addEventListener(
     } catch (error) {
 
       setStatus(
-        "❌ " + error.message,
+        "❌ " +
+        error.message,
         "error"
       );
 
     } finally {
 
-      uploadBtn.disabled = false;
+      uploadBtn.disabled =
+        false;
+
 
       uploadBtn.textContent =
         "☁️ Upload хийх";
@@ -443,7 +484,7 @@ uploadForm.addEventListener(
 
 
 // ==============================
-// LOAD
+// LOAD PHOTOS
 // ==============================
 
 async function loadPhotos() {
@@ -461,7 +502,9 @@ async function loadPhotos() {
       "/api/photos";
 
 
-    if (filterCategory.value) {
+    if (
+      filterCategory.value
+    ) {
 
       url +=
         "?category=" +
@@ -477,9 +520,11 @@ async function loadPhotos() {
 
 
     if (!response.ok) {
+
       throw new Error(
         "Зургуудыг авч чадсангүй."
       );
+
     }
 
 
@@ -539,11 +584,26 @@ function renderPhotos() {
 
       card.innerHTML = `
 
-        <img
-          src="${escapeAttribute(photo.imageUrl)}"
-          alt="Дурсамж"
-          loading="lazy"
-        >
+        <div class="admin-photo-wrap">
+
+          <img
+            src="${escapeAttribute(photo.imageUrl)}"
+            alt="Дурсамж"
+            loading="lazy"
+          >
+
+          ${
+            photo.featured
+              ? `
+                <div class="featured-label">
+                  ⭐ ОНЦЛОХ
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
 
         <div class="photo-content">
 
@@ -554,6 +614,7 @@ function renderPhotos() {
             )}
           </h3>
 
+
           <p>
             ${
               categoryNames[
@@ -562,38 +623,79 @@ function renderPhotos() {
             }
           </p>
 
-          ${
-            photo.wide
-              ? `<span class="badge">
-                   🖼 Том зураг
-                 </span>`
-              : ""
-          }
+
+          <div class="photo-badges">
+
+            ${
+              photo.wide
+                ? `
+                  <span class="badge">
+                    🖼 Том зураг
+                  </span>
+                `
+                : ""
+            }
+
+
+            ${
+              photo.featured
+                ? `
+                  <span class="badge featured-badge">
+                    ⭐ ОНЦЛОХ ДУРСАМЖ
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
 
           <div class="card-actions">
 
             <button
               class="move-up"
               title="Дээш"
+              type="button"
             >
               ↑
             </button>
 
+
             <button
               class="move-down"
               title="Доош"
+              type="button"
             >
               ↓
             </button>
 
+
+            <button
+              class="featured"
+              title="Онцлох дурсамж"
+              type="button"
+            >
+              ${
+                photo.featured
+                  ? "★"
+                  : "⭐"
+              }
+            </button>
+
+
             <button
               class="edit"
+              title="Засах"
+              type="button"
             >
               ✏️
             </button>
 
+
             <button
               class="delete"
+              title="Устгах"
+              type="button"
             >
               🗑
             </button>
@@ -605,49 +707,141 @@ function renderPhotos() {
 
 
       card
-        .querySelector(".move-up")
+        .querySelector(
+          ".move-up"
+        )
         .addEventListener(
           "click",
-          () => movePhoto(
-            index,
-            -1
-          )
+          () =>
+            movePhoto(
+              index,
+              -1
+            )
         );
 
 
       card
-        .querySelector(".move-down")
+        .querySelector(
+          ".move-down"
+        )
         .addEventListener(
           "click",
-          () => movePhoto(
-            index,
-            1
-          )
+          () =>
+            movePhoto(
+              index,
+              1
+            )
         );
 
 
       card
-        .querySelector(".edit")
+        .querySelector(
+          ".featured"
+        )
         .addEventListener(
           "click",
-          () => openEdit(photo)
+          () =>
+            toggleFeatured(
+              photo
+            )
         );
 
 
       card
-        .querySelector(".delete")
+        .querySelector(
+          ".edit"
+        )
         .addEventListener(
           "click",
-          () => deletePhoto(
-            photo._id
-          )
+          () =>
+            openEdit(
+              photo
+            )
         );
 
 
-      photoList.appendChild(card);
+      card
+        .querySelector(
+          ".delete"
+        )
+        .addEventListener(
+          "click",
+          () =>
+            deletePhoto(
+              photo._id
+            )
+        );
+
+
+      photoList.appendChild(
+        card
+      );
 
     }
   );
+
+}
+
+
+// ==============================
+// FEATURED
+// ==============================
+
+async function toggleFeatured(
+  photo
+) {
+
+  try {
+
+    const response =
+      await fetch(
+        `/api/photos/${photo._id}`,
+        {
+          method: "PUT",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "x-admin-password":
+              adminPassword
+
+          },
+
+          body:
+            JSON.stringify({
+              featured:
+                !photo.featured
+            })
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        result.message ||
+        "Онцлох зургийг сольж чадсангүй."
+      );
+
+    }
+
+
+    await loadPhotos();
+
+  } catch (error) {
+
+    alert(
+      "❌ " +
+      error.message
+    );
+
+  }
 
 }
 
@@ -675,7 +869,9 @@ function openEdit(photo) {
 
 
   editWide.checked =
-    Boolean(photo.wide);
+    Boolean(
+      photo.wide
+    );
 
 
   editModal.classList.add(
@@ -696,7 +892,8 @@ editModal.addEventListener(
   (event) => {
 
     if (
-      event.target === editModal
+      event.target ===
+      editModal
     ) {
 
       closeEditModal();
@@ -713,7 +910,9 @@ function closeEditModal() {
     "show"
   );
 
-  editingPhotoId = null;
+
+  editingPhotoId =
+    null;
 
 }
 
@@ -724,6 +923,7 @@ function closeEditModal() {
 
 saveEditBtn.addEventListener(
   "click",
+
   async () => {
 
     if (!editingPhotoId) {
@@ -744,23 +944,32 @@ saveEditBtn.addEventListener(
             method: "PUT",
 
             headers: {
+
               "Content-Type":
                 "application/json",
 
               "x-admin-password":
                 adminPassword
+
             },
 
-            body: JSON.stringify({
-              title:
-                editTitle.value.trim(),
+            body:
+              JSON.stringify({
 
-              category:
-                editCategory.value,
+                title:
+                  editTitle
+                    .value
+                    .trim(),
 
-              wide:
-                editWide.checked
-            })
+                category:
+                  editCategory
+                    .value,
+
+                wide:
+                  editWide
+                    .checked
+
+              })
           }
         );
 
@@ -780,12 +989,14 @@ saveEditBtn.addEventListener(
 
       closeEditModal();
 
+
       await loadPhotos();
 
     } catch (error) {
 
       alert(
-        "❌ " + error.message
+        "❌ " +
+        error.message
       );
 
     } finally {
@@ -822,7 +1033,8 @@ async function deletePhoto(id) {
       await fetch(
         `/api/photos/${id}`,
         {
-          method: "DELETE",
+          method:
+            "DELETE",
 
           headers: {
             "x-admin-password":
@@ -850,7 +1062,8 @@ async function deletePhoto(id) {
   } catch (error) {
 
     alert(
-      "❌ " + error.message
+      "❌ " +
+      error.message
     );
 
   }
@@ -868,7 +1081,8 @@ async function movePhoto(
 ) {
 
   const newIndex =
-    index + direction;
+    index +
+    direction;
 
 
   if (
@@ -876,7 +1090,9 @@ async function movePhoto(
     newIndex >=
       currentPhotos.length
   ) {
+
     return;
+
   }
 
 
@@ -896,7 +1112,8 @@ async function movePhoto(
 
     const ids =
       currentPhotos.map(
-        photo => photo._id
+        (photo) =>
+          photo._id
       );
 
 
@@ -907,16 +1124,19 @@ async function movePhoto(
           method: "PUT",
 
           headers: {
+
             "Content-Type":
               "application/json",
 
             "x-admin-password":
               adminPassword
+
           },
 
-          body: JSON.stringify({
-            ids
-          })
+          body:
+            JSON.stringify({
+              ids
+            })
         }
       );
 
@@ -932,8 +1152,10 @@ async function movePhoto(
   } catch (error) {
 
     alert(
-      "❌ " + error.message
+      "❌ " +
+      error.message
     );
+
 
     await loadPhotos();
 
@@ -965,10 +1187,16 @@ refreshBtn.addEventListener(
 function escapeHtml(value) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   div.textContent =
-    String(value ?? "");
+    String(
+      value ?? ""
+    );
+
 
   return div.innerHTML;
 
@@ -977,11 +1205,25 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
 
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+  return String(
+    value ?? ""
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    );
 
 }
 

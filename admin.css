@@ -697,3 +697,81 @@ select:focus {
   }
 
 }
+/* ==============================
+   FEATURED MEMORY
+============================== */
+
+.admin-photo-wrap {
+  position: relative;
+}
+
+.featured-label {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  padding: 7px 11px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255, 248, 226, .95);
+
+  color: #9a6a13;
+
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0, 0, 0, .12);
+}
+
+.photo-badges {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin-top: 8px;
+}
+
+.featured {
+  border:
+    1px solid #c49a52 !important;
+
+  background:
+    #fff8e8 !important;
+
+  color:
+    #a97925 !important;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.featured:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    #c49a52 !important;
+
+  color:
+    white !important;
+}
+
+.featured-badge {
+  background:
+    #fff4cf !important;
+
+  color:
+    #9a6a13 !important;
+
+  border:
+    1px solid
+    #e8c66e !important;
+}
