@@ -1710,3 +1710,44 @@ memoryMusic.addEventListener(
 
   }
 );
+
+// ========================================
+// BACKGROUND MUSIC CONTROL
+// ========================================
+
+let musicWasPlaying = false;
+
+document.addEventListener("visibilitychange", () => {
+
+  if (document.hidden) {
+
+    // Сайтаас гарахын өмнө тоглож байсан эсэх
+    musicWasPlaying = !memoryMusic.paused;
+
+    // Background болоход зогсооно
+    memoryMusic.pause();
+
+  } else {
+
+    // Сайт руу буцаж орвол өмнө тоглож байсан
+    // тохиолдолд үргэлжлүүлнэ
+    if (musicWasPlaying) {
+      memoryMusic.play().catch(() => {});
+    }
+
+  }
+
+});
+
+
+// iPhone / mobile browser нэмэлт хамгаалалт
+window.addEventListener("pagehide", () => {
+  musicWasPlaying = !memoryMusic.paused;
+  memoryMusic.pause();
+});
+
+window.addEventListener("pageshow", () => {
+  if (musicWasPlaying) {
+    memoryMusic.play().catch(() => {});
+  }
+});
