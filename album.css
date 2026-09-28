@@ -2243,3 +2243,425 @@ footer span {
   }
 
 }
+
+/* =====================================
+   SURPRISE
+===================================== */
+
+.surprise-section {
+  padding: 130px 20px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(244,223,226,.8),
+      transparent 50%
+    ),
+    #fffdf9;
+}
+
+.surprise-small {
+  color: var(--gold);
+
+  font-size: 8px;
+  letter-spacing: 6px;
+}
+
+.gift-icon {
+  margin: 35px 0 15px;
+
+  font-size: 80px;
+
+  animation: giftFloat 2s ease-in-out infinite;
+}
+
+@keyframes giftFloat {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.surprise-section h2 {
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size:
+    clamp(48px, 8vw, 80px);
+
+  font-weight: 400;
+}
+
+.surprise-section h2 span {
+  display: block;
+
+  color: var(--rose);
+
+  font-style: italic;
+}
+
+.surprise-section > p {
+  margin-top: 20px;
+
+  color: var(--muted);
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 20px;
+}
+
+.open-gift-btn {
+  margin-top: 35px;
+
+  padding: 15px 30px;
+
+  border: 1px solid var(--rose);
+  border-radius: 50px;
+
+  background: var(--rose);
+  color: white;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 15px 35px
+    rgba(169,80,96,.2);
+
+  transition: .3s;
+}
+
+.open-gift-btn:hover {
+  transform:
+    translateY(-4px) scale(1.03);
+}
+
+
+/* =====================================
+   FULLSCREEN GIFT
+===================================== */
+
+.gift-surprise {
+  position: fixed;
+
+  z-index: 20000;
+
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #65454c,
+      #241a1d 70%
+    );
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: .5s;
+}
+
+.gift-surprise.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gift-content {
+  position: relative;
+
+  z-index: 5;
+
+  width: min(800px, 100%);
+
+  text-align: center;
+}
+
+
+/* BIG GIFT */
+
+.big-gift {
+  font-size:
+    clamp(110px, 22vw, 200px);
+
+  transform: scale(0);
+
+  filter:
+    drop-shadow(
+      0 25px 30px
+      rgba(0,0,0,.3)
+    );
+}
+
+.gift-surprise.show
+.big-gift {
+  animation:
+    giftAppear .8s forwards,
+    giftShake .6s .9s 2;
+}
+
+@keyframes giftAppear {
+  0% {
+    transform:
+      scale(0) rotate(-20deg);
+  }
+
+  70% {
+    transform:
+      scale(1.15) rotate(5deg);
+  }
+
+  100% {
+    transform:
+      scale(1);
+  }
+}
+
+@keyframes giftShake {
+  0%, 100% {
+    transform:
+      rotate(0);
+  }
+
+  25% {
+    transform:
+      rotate(-7deg);
+  }
+
+  75% {
+    transform:
+      rotate(7deg);
+  }
+}
+
+
+/* MESSAGE */
+
+.gift-message {
+  display: none;
+
+  color: white;
+
+  opacity: 0;
+
+  transform:
+    translateY(30px);
+}
+
+.gift-message.show {
+  display: block;
+
+  animation:
+    messageAppear 1s forwards;
+}
+
+@keyframes messageAppear {
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+.gift-heart {
+  color: #e5a9b2;
+
+  font-size: 60px;
+}
+
+.gift-small {
+  color: #d8ad68;
+
+  font-size: 8px;
+  letter-spacing: 6px;
+}
+
+.gift-message h2 {
+  margin-top: 15px;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size:
+    clamp(55px, 10vw, 95px);
+
+  font-weight: 400;
+
+  line-height: .9;
+}
+
+.gift-message h2 span {
+  display: block;
+
+  color: #e5a9b2;
+
+  font-style: italic;
+}
+
+.gift-line {
+  width: 60px;
+  height: 1px;
+
+  margin: 30px auto;
+
+  background: #c49a52;
+}
+
+.gift-text {
+  max-width: 570px;
+
+  margin: auto;
+
+  color: #eadde0;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.gift-final {
+  margin-top: 25px;
+
+  color: #e5a9b2;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 25px;
+  font-style: italic;
+}
+
+.gift-slideshow-btn {
+  margin-top: 30px;
+
+  padding: 14px 25px;
+
+  border: 1px solid #c49a52;
+  border-radius: 50px;
+
+  background: transparent;
+  color: white;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 9px;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.gift-slideshow-btn:hover {
+  background: #c49a52;
+  color: #241a1d;
+}
+
+.gift-close {
+  position: absolute;
+
+  z-index: 50;
+
+  top: 20px;
+  right: 28px;
+
+  border: 0;
+
+  background: transparent;
+  color: white;
+
+  font-size: 45px;
+
+  cursor: pointer;
+}
+
+
+/* =====================================
+   CONFETTI
+===================================== */
+
+.confetti-container {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+
+  top: -30px;
+
+  width: 10px;
+  height: 16px;
+
+  opacity: .9;
+
+  animation:
+    confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+
+  0% {
+    transform:
+      translateY(-10vh)
+      rotate(0deg);
+  }
+
+  100% {
+    transform:
+      translateY(115vh)
+      rotate(720deg);
+  }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .surprise-section {
+    padding:
+      100px 20px;
+  }
+
+  .gift-surprise {
+    padding:
+      20px;
+  }
+
+  .gift-text {
+    font-size: 18px;
+  }
+
+  .gift-final {
+    font-size: 21px;
+  }
+
+}

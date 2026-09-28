@@ -1751,3 +1751,225 @@ window.addEventListener("pageshow", () => {
     memoryMusic.play().catch(() => {});
   }
 });
+
+// ========================================
+// SURPRISE GIFT
+// ========================================
+
+const openGiftBtn =
+  document.getElementById("openGiftBtn");
+
+const giftSurprise =
+  document.getElementById("giftSurprise");
+
+const closeGiftBtn =
+  document.getElementById("closeGiftBtn");
+
+const bigGift =
+  document.getElementById("bigGift");
+
+const giftMessage =
+  document.getElementById("giftMessage");
+
+const giftSlideshowBtn =
+  document.getElementById("giftSlideshowBtn");
+
+const confettiContainer =
+  document.getElementById("confettiContainer");
+
+
+let giftTimeout = null;
+
+
+// ========================================
+// OPEN GIFT
+// ========================================
+
+openGiftBtn.addEventListener(
+  "click",
+  () => {
+
+    giftMessage.classList.remove(
+      "show"
+    );
+
+    bigGift.style.display =
+      "block";
+
+    giftSurprise.classList.add(
+      "show"
+    );
+
+    document.body.style.overflow =
+      "hidden";
+
+
+    // Бэлэг нээгдэхээс өмнө
+    // бага зэрэг хүлээнэ
+    giftTimeout =
+      setTimeout(
+        () => {
+
+          bigGift.style.display =
+            "none";
+
+          giftMessage.classList.add(
+            "show"
+          );
+
+          createConfetti();
+
+        },
+        2100
+      );
+
+  }
+);
+
+
+// ========================================
+// CONFETTI
+// ========================================
+
+function createConfetti() {
+
+  confettiContainer.innerHTML =
+    "";
+
+
+  const colors = [
+    "#e5a9b2",
+    "#c49a52",
+    "#ffffff",
+    "#f4dfe2",
+    "#a95060"
+  ];
+
+
+  for (
+    let i = 0;
+    i < 100;
+    i++
+  ) {
+
+    const confetti =
+      document.createElement(
+        "span"
+      );
+
+
+    confetti.className =
+      "confetti";
+
+
+    confetti.style.left =
+      `${Math.random() * 100}%`;
+
+
+    confetti.style.background =
+      colors[
+        Math.floor(
+          Math.random() *
+          colors.length
+        )
+      ];
+
+
+    confetti.style.animationDuration =
+      `${2.5 + Math.random() * 3}s`;
+
+
+    confetti.style.animationDelay =
+      `${Math.random() * 1.2}s`;
+
+
+    confetti.style.transform =
+      `rotate(${Math.random() * 360}deg)`;
+
+
+    confettiContainer.appendChild(
+      confetti
+    );
+
+  }
+
+
+  // Animation дууссаны дараа цэвэрлэнэ
+  setTimeout(
+    () => {
+
+      confettiContainer.innerHTML =
+        "";
+
+    },
+    7000
+  );
+
+}
+
+
+// ========================================
+// CLOSE GIFT
+// ========================================
+
+function closeGift() {
+
+  clearTimeout(
+    giftTimeout
+  );
+
+
+  giftSurprise.classList.remove(
+    "show"
+  );
+
+
+  giftMessage.classList.remove(
+    "show"
+  );
+
+
+  bigGift.style.display =
+    "block";
+
+
+  confettiContainer.innerHTML =
+    "";
+
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+closeGiftBtn.addEventListener(
+  "click",
+  closeGift
+);
+
+
+// ========================================
+// FINAL SLIDESHOW
+// ========================================
+
+giftSlideshowBtn.addEventListener(
+  "click",
+  async () => {
+
+    closeGift();
+
+
+    if (!allPhotos.length) {
+
+      await loadAllPhotos();
+
+    }
+
+
+    startSlideshow(
+      allPhotos
+    );
+
+  }
+);
