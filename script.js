@@ -1047,3 +1047,207 @@ document.addEventListener(
 console.log(
   "🌸 Teacher Day website ready"
 );
+
+// ======================================================
+// SURPRISE GIFT
+// ======================================================
+
+const surpriseBtn =
+  document.getElementById("surpriseBtn");
+
+const surpriseModal =
+  document.getElementById("surpriseModal");
+
+const surpriseClose =
+  document.getElementById("surpriseClose");
+
+
+function createSurprisePetals() {
+
+  const symbols = [
+    "🌸",
+    "🌷",
+    "❀",
+    "♡"
+  ];
+
+
+  for (let i = 0; i < 45; i++) {
+
+    setTimeout(() => {
+
+      const petal =
+        document.createElement("div");
+
+
+      petal.className =
+        "surprise-petal";
+
+
+      petal.textContent =
+        symbols[
+          Math.floor(
+            Math.random() *
+            symbols.length
+          )
+        ];
+
+
+      petal.style.left =
+        Math.random() * 100 + "vw";
+
+
+      petal.style.fontSize =
+        12 +
+        Math.random() * 20 +
+        "px";
+
+
+      petal.style.opacity =
+        0.4 +
+        Math.random() * 0.6;
+
+
+      petal.style.animationDuration =
+        4 +
+        Math.random() * 5 +
+        "s";
+
+
+      document.body.appendChild(
+        petal
+      );
+
+
+      setTimeout(
+        () => petal.remove(),
+        10000
+      );
+
+    }, i * 100);
+
+  }
+
+}
+
+
+function openSurprise() {
+
+  if (!surpriseModal) return;
+
+
+  surpriseModal.classList.add(
+    "show"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  createSurprisePetals();
+
+
+  // Хөгжим байгаа бол тоглуулна.
+
+  if (music) {
+
+    music.play()
+      .then(() => {
+
+        musicPlaying = true;
+
+
+        if (musicBtn) {
+
+          musicBtn.textContent =
+            "❚❚ Зогсоох";
+
+          musicBtn.classList.add(
+            "playing"
+          );
+
+        }
+
+      })
+      .catch(() => {
+
+        // Browser autoplay хориглосон бол
+        // surprise хэвийн ажилласаар байна.
+
+      });
+
+  }
+
+}
+
+
+function closeSurprise() {
+
+  if (!surpriseModal) return;
+
+
+  surpriseModal.classList.remove(
+    "show"
+  );
+
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+if (surpriseBtn) {
+
+  surpriseBtn.addEventListener(
+    "click",
+    openSurprise
+  );
+
+}
+
+
+if (surpriseClose) {
+
+  surpriseClose.addEventListener(
+    "click",
+    closeSurprise
+  );
+
+}
+
+
+if (surpriseModal) {
+
+  surpriseModal.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target ===
+        surpriseModal
+      ) {
+
+        closeSurprise();
+
+      }
+
+    }
+  );
+
+}
+
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Escape") {
+
+      closeSurprise();
+
+    }
+
+  }
+);
