@@ -1,0 +1,495 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #fffaf6;
+  --rose: #a95060;
+  --rose-light: #e8b7bf;
+  --rose-dark: #713844;
+  --gold: #c39a58;
+  --text: #4b393d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #fff,
+      #fff7f3 55%,
+      #f8ede8
+    );
+
+  color: var(--text);
+
+  font-family: "Montserrat", sans-serif;
+
+  overflow-x: hidden;
+}
+
+.page {
+  min-height: 100vh;
+
+  padding: 70px 20px;
+
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--gold);
+
+  font-size: 9px;
+
+  letter-spacing: 7px;
+}
+
+h1 {
+  max-width: 800px;
+
+  margin: 20px auto 0;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size:
+    clamp(45px, 8vw, 80px);
+
+  font-weight: 400;
+
+  line-height: .95;
+}
+
+h1 em {
+  display: block;
+
+  color: var(--rose);
+
+  font-weight: 500;
+}
+
+.intro {
+  margin-top: 25px;
+
+  color: #947d82;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 20px;
+}
+
+
+/* =========================
+   BOUQUET
+========================= */
+
+.bouquet {
+  position: relative;
+
+  width: min(650px, 100%);
+
+  height: 650px;
+
+  margin: 25px auto 0;
+
+  cursor: pointer;
+}
+
+.flowers {
+  position: absolute;
+
+  z-index: 5;
+
+  top: 45px;
+  left: 50%;
+
+  width: 430px;
+  height: 430px;
+
+  transform: translateX(-50%);
+
+  transition: 1.5s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* INDIVIDUAL FLOWER */
+
+.flower {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 65px;
+  height: 65px;
+
+  font-size: 47px;
+
+  filter:
+    drop-shadow(
+      0 7px 6px
+      rgba(80, 30, 40, .12)
+    );
+
+  user-select: none;
+
+  transition:
+    transform 1.5s cubic-bezier(.2,.8,.2,1),
+    opacity 1s ease;
+}
+
+
+/* WRAP */
+
+.bouquet-wrap {
+  position: absolute;
+
+  z-index: 4;
+
+  top: 390px;
+  left: 50%;
+
+  width: 160px;
+  height: 190px;
+
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1ded3,
+      #fff4ea
+    );
+
+  clip-path:
+    polygon(
+      10% 0,
+      90% 0,
+      68% 100%,
+      32% 100%
+    );
+
+  transition:
+    .8s ease;
+}
+
+.ribbon {
+  position: absolute;
+
+  top: 65px;
+  left: 50%;
+
+  width: 110px;
+
+  padding: 8px;
+
+  transform:
+    translateX(-50%)
+    rotate(-4deg);
+
+  background: var(--rose);
+
+  color: white;
+
+  font-size: 20px;
+}
+
+
+/* =========================
+   QR
+========================= */
+
+.qr-card {
+  position: absolute;
+
+  z-index: 2;
+
+  top: 75px;
+  left: 50%;
+
+  width: 330px;
+
+  transform:
+    translateX(-50%)
+    scale(.4);
+
+  opacity: 0;
+
+  transition:
+    1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+.qr-frame {
+  position: relative;
+
+  display: inline-flex;
+
+  padding: 22px;
+
+  border: 1px solid #e4c9ce;
+  border-radius: 28px;
+
+  background: white;
+
+  box-shadow:
+    0 30px 70px
+    rgba(100, 45, 55, .18);
+}
+
+#qrcode img,
+#qrcode canvas {
+  display: block;
+
+  width: 250px !important;
+  height: 250px !important;
+}
+
+.qr-heart {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: var(--rose);
+
+  font-size: 25px;
+
+  box-shadow:
+    0 3px 10px
+    rgba(0,0,0,.12);
+}
+
+.scan-text {
+  margin-top: 20px;
+
+  color: #8d7479;
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 18px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.bloom-btn {
+  position: absolute;
+
+  z-index: 20;
+
+  bottom: 25px;
+  left: 50%;
+
+  padding: 14px 27px;
+
+  transform: translateX(-50%);
+
+  border:
+    1px solid var(--rose);
+
+  border-radius: 100px;
+
+  background: rgba(255,255,255,.9);
+
+  color: var(--rose);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 10px;
+
+  letter-spacing: .5px;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.bloom-btn:hover {
+  background: var(--rose);
+
+  color: white;
+
+  transform:
+    translateX(-50%)
+    translateY(-3px);
+}
+
+
+/* =========================
+   OPEN STATE
+========================= */
+
+.bouquet.open .qr-card {
+  z-index: 10;
+
+  transform:
+    translateX(-50%)
+    scale(1);
+
+  opacity: 1;
+}
+
+.bouquet.open
+.bouquet-wrap {
+  transform:
+    translateX(-50%)
+    translateY(120px);
+
+  opacity: 0;
+}
+
+.bouquet.open
+.bloom-btn {
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   FINAL
+========================= */
+
+.final-message {
+  margin-top: -20px;
+
+  opacity: 0;
+
+  transform: translateY(20px);
+
+  transition: 1s .7s;
+}
+
+.final-message.show {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+.final-message span {
+  color: var(--rose);
+
+  font-size: 30px;
+}
+
+.final-message p {
+  margin-top: 5px;
+
+  color: var(--rose-dark);
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: 27px;
+
+  font-style: italic;
+}
+
+.final-message small {
+  display: block;
+
+  margin-top: 10px;
+
+  color: var(--gold);
+
+  font-size: 8px;
+
+  letter-spacing: 4px;
+}
+
+.album-link {
+  display: inline-block;
+
+  margin-top: 35px;
+
+  color: #80686d;
+
+  font-size: 10px;
+
+  text-decoration: none;
+
+  border-bottom:
+    1px solid #d5bdc1;
+
+  padding-bottom: 5px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .page {
+    padding:
+      45px 15px 70px;
+  }
+
+  .bouquet {
+    height: 570px;
+  }
+
+  .flowers {
+    top: 50px;
+
+    width: 340px;
+    height: 340px;
+  }
+
+  .flower {
+    width: 55px;
+    height: 55px;
+
+    font-size: 40px;
+  }
+
+  .bouquet-wrap {
+    top: 330px;
+  }
+
+  .qr-card {
+    top: 65px;
+
+    width: 290px;
+  }
+
+  #qrcode img,
+  #qrcode canvas {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+}

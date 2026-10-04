@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>10А — Дурсамжийн цэцэг</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,500;1,600&family=Montserrat:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="qr.css">
+</head>
+
+<body>
+
+  <main class="page">
+
+    <p class="eyebrow">
+      10А АНГИ • 2026
+    </p>
+
+    <h1>
+      Багшдаа зориулсан
+      <em>дурсамжийн цэцэг</em>
+    </h1>
+
+    <p class="intro">
+      Цэцгийн баглаан дээр дараарай ♡
+    </p>
+
+
+    <!-- FLOWER / QR AREA -->
+
+    <section
+      id="bouquet"
+      class="bouquet"
+      aria-label="Дурсамжийн цэцэг"
+    >
+
+      <!-- QR -->
+      <div
+        id="qrCard"
+        class="qr-card"
+      >
+
+        <div class="qr-frame">
+
+          <div id="qrcode"></div>
+
+          <div class="qr-heart">
+            ♡
+          </div>
+
+        </div>
+
+        <p class="scan-text">
+          Камераа чиглүүлээд дурсамжаа нээгээрэй
+        </p>
+
+      </div>
+
+
+      <!-- FLOWERS -->
+
+      <div id="flowers" class="flowers"></div>
+
+
+      <!-- POT / WRAP -->
+
+      <div class="bouquet-wrap">
+
+        <div class="ribbon">
+          ♡
+        </div>
+
+      </div>
+
+
+      <button
+        id="bloomBtn"
+        class="bloom-btn"
+        type="button"
+      >
+        Цэцгийг дэлгэрүүлэх ♡
+      </button>
+
+    </section>
+
+
+    <div
+      id="finalMessage"
+      class="final-message"
+    >
+      <span>♡</span>
+
+      <p>
+        Дурсамж хэзээ ч бүдгэрдэггүй
+      </p>
+
+      <small>
+        10А анги • 2026
+      </small>
+    </div>
+
+
+    <a
+      class="album-link"
+      href="/album.html"
+    >
+      Цомгийг шууд нээх →
+    </a>
+
+  </main>
+
+
+  <!-- QR library -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  ></script>
+
+  <script src="qr.js"></script>
+
+</body>
+</html>
